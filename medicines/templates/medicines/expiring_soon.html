@@ -1,0 +1,41 @@
+{% extends 'medicines/base.html' %}
+{% block title %}Zinakwisha Hivi Karibuni{% endblock %}
+
+{% block content %}
+<div style="background:#fff8e1;border-left:5px solid #f57f17;
+            padding:15px 20px;border-radius:8px;margin-bottom:20px;">
+  ⚠️ <strong>Angalizo!</strong>
+  Dawa hizi zitaisha muda ndani ya siku 30. Panga upya haraka.
+</div>
+
+<div class="table-container">
+  <div class="table-header">
+    <h3>⚠️ Zinakwisha Ndani ya Siku 30 ({{ medicines.count }})</h3>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>Jina</th><th>Aina</th>
+        <th>Idadi</th><th>Kuisha</th><th>Siku Zilizobaki</th><th>Msambazaji</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for med in medicines %}
+      <tr style="background:#fffdf0;">
+        <td>{{ forloop.counter }}</td>
+        <td><strong>{{ med.name }}</strong></td>
+        <td><span class="badge badge-category">{{ med.get_category_display }}</span></td>
+        <td>{{ med.quantity }}</td>
+        <td>{{ med.expiry_date }}</td>
+        <td><span class="badge badge-warning">{{ med.days_until_expiry }} siku</span></td>
+        <td>{{ med.supplier }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" style="text-align:center;padding:30px;color:#2e7d32;">
+        ✅ Hakuna dawa zinazokwisha hivi karibuni!
+      </td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'medicines/base.html' %}
+{% block title %}Dawa Zimeisha Muda{% endblock %}
+
+{% block content %}
+<div style="background:#ffebee;border-left:5px solid #c62828;
+            padding:15px 20px;border-radius:8px;margin-bottom:20px;">
+  🚫 <strong>Tahadhari!</strong>
+  Dawa hizi zimeisha muda na HAZIFAI kutolewa kwa wagonjwa.
+</div>
+
+<div class="table-container">
+  <div class="table-header">
+    <h3>🚫 Dawa Zimeisha Muda ({{ medicines.count }})</h3>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>Jina</th><th>Aina</th>
+        <th>Idadi</th><th>Ilimalizika</th><th>Msambazaji</th><th>Vitendo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for med in medicines %}
+      <tr style="background:#fff5f5;">
+        <td>{{ forloop.counter }}</td>
+        <td><strong style="color:#c62828;">{{ med.name }}</strong></td>
+        <td><span class="badge badge-category">{{ med.get_category_display }}</span></td>
+        <td>{{ med.quantity }}</td>
+        <td><span style="color:#c62828;">{{ med.expiry_date }}</span></td>
+        <td>{{ med.supplier }}</td>
+        <td>
+          <a href="{% url 'delete_medicine' med.pk %}"
+             class="btn btn-danger"
+             onclick="return confirm('Futa {{ med.name }} kabisa?')">🗑️ Futa</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" style="text-align:center;padding:30px;color:#2e7d32;">
+        ✅ Hakuna dawa zilizoisha muda. Mzuri sana!
+      </td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'medicines/base.html' %}
+{% block title %}Dawa Zote{% endblock %}
+
+{% block content %}
+<div class="table-container">
+  <div class="table-header">
+    <h3>💊 Dawa Zote ({{ medicines.count }})</h3>
+    <div style="display:flex;gap:10px;">
+      <form method="GET">
+        <input class="search-bar" type="text" name="search"
+               placeholder="🔍 Tafuta dawa..." value="{{ query }}">
+      </form>
+      <a href="{% url 'add_medicine' %}" class="btn btn-primary">➕ Ongeza</a>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>Jina</th><th>Aina</th><th>Idadi</th>
+        <th>Bei (TZS)</th><th>Msambazaji</th>
+        <th>Kuisha</th><th>Siku Zilizobaki</th><th>Hali</th><th>Vitendo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for med in medicines %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><strong>{{ med.name }}</strong></td>
+        <td><span class="badge badge-category">{{ med.get_category_display }}</span></td>
+        <td>{{ med.quantity }}</td>
+        <td>{{ med.price|floatformat:0 }}</td>
+        <td>{{ med.supplier }}</td>
+        <td>{{ med.expiry_date }}</td>
+        <td>
+          {% if med.days_until_expiry < 0 %}
+            <span style="color:#c62828;">Imepita siku {{ med.days_until_expiry|slice:"1:" }}</span>
+          {% else %}
+            {{ med.days_until_expiry }} siku
+          {% endif %}
+        </td>
+        <td>
+          {% if med.status == 'expired' %}
+            <span class="badge badge-danger">🚫 Imeisha</span>
+          {% elif med.status == 'expiring_soon' %}
+            <span class="badge badge-warning">⚠️ Inakwisha</span>
+          {% else %}
+            <span class="badge badge-good">✅ Nzuri</span>
+          {% endif %}
+        </td>
+        <td style="display:flex;gap:5px;">
+          <a href="{% url 'edit_medicine' med.pk %}" class="btn btn-warning">✏️</a>
+          <a href="{% url 'delete_medicine' med.pk %}"
+             class="btn btn-danger"
+             onclick="return confirm('Futa {{ med.name }}?')">🗑️</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="10" style="text-align:center;padding:30px;color:#999;">
+        Hakuna dawa. <a href="{% url 'add_medicine' %}">Ongeza dawa ya kwanza</a>
+      </td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

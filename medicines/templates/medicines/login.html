@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<title>💊 PharmaCare - Login</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#1a237e,#283593);
+    min-height:100vh; display:flex;
+    align-items:center; justify-content:center;
+  }
+  .login-card {
+    background:white; padding:45px 40px;
+    border-radius:16px; width:380px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+  .logo { text-align:center; margin-bottom:30px; }
+  .logo .icon { font-size:50px; }
+  .logo h2 { font-size:24px; color:#1a237e; margin-top:8px; }
+  .logo p  { color:#888; font-size:14px; margin-top:4px; }
+  .form-group { margin-bottom:18px; }
+  label { display:block; margin-bottom:6px; font-weight:600; color:#444; font-size:14px; }
+  input {
+    width:100%; padding:12px 14px;
+    border:1px solid #ddd; border-radius:8px; font-size:15px;
+  }
+  input:focus { outline:none; border-color:#1a237e; }
+  .btn-login {
+    width:100%; padding:13px;
+    background:linear-gradient(135deg,#1a237e,#283593);
+    color:white; border:none; border-radius:8px;
+    font-size:16px; cursor:pointer; margin-top:5px;
+    font-weight:bold;
+  }
+  .btn-login:hover { opacity:0.9; }
+  .alert { padding:10px 14px; border-radius:7px; margin-bottom:15px; font-size:14px; }
+  .alert-error { background:#ffebee; color:#c62828; border-left:4px solid #c62828; }
+  .alert-success { background:#e8f5e9; color:#2e7d32; }
+</style>
+</head>
+<body>
+<div class="login-card">
+  <div class="logo">
+    <div class="icon">💊</div>
+    <h2>PharmaCare</h2>
+    <p>Mfumo wa Kusimamia Dawa</p>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>👤 Jina la Mtumiaji</label>
+      <input type="text" name="username" placeholder="Ingiza jina lako..." required>
+    </div>
+    <div class="form-group">
+      <label>🔒 Nywila</label>
+      <input type="password" name="password" placeholder="Ingiza nywila..." required>
+    </div>
+    <button type="submit" class="btn-login">🔐 Ingia Mfumoni</button>
+  </form>
+</div>
+</body>
+</html>
